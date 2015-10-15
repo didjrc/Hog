@@ -13,3 +13,20 @@ Otherwise, let p now equal this new number (which is the next prime), and repeat
 """
 
 p = list(range(2,71,1))
+prime = []
+
+# From: https://www.daniweb.com/programming/software-development/code/216880/check-if-a-number-is-a-prime-number-python
+def cp(n):
+	'''check if integer n is a prime'''
+	if n == 2:
+		return True
+		prime.append(n)
+	# all other even numbers are not primes
+	if not n & 1: 
+		return False
+	# range starts with 3 and only needs to go up the squareroot of n for all odd numbers
+	for x in range(3, int(n**0.5)+1, 2):
+		if n % x == 0:
+			return False
+	return True
+	prime.append(n)
