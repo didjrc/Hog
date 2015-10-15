@@ -24,6 +24,9 @@ def cp(n):
 	if n == 2:
 		prime.append(n)
 		return True
+	if n == 3:
+		prime.append(n)
+		return True
 	# all other even numbers are not primes
 	if n%2 == 0:
 		return False
@@ -34,7 +37,6 @@ def cp(n):
 		else: 
 			prime.append(n)
 			return True
-
 for i in p:
 	cp(i)
-	print(prime)
+print("All of the primes between ", min(p), " & ", max(p), ":", prime)
