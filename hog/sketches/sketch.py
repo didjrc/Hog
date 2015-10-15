@@ -12,21 +12,29 @@ Otherwise, let p now equal this new number (which is the next prime), and repeat
 
 """
 
+# full range of possible sum(dice) when rolling 10 dice w/ max value 7
 p = list(range(2,71,1))
+# range starts with 3 and only needs to go up the squareroot of n for all odd numbers
+m = list(range(3, int(max(p)**0.5)+1, 2))
 prime = []
 
 # From: https://www.daniweb.com/programming/software-development/code/216880/check-if-a-number-is-a-prime-number-python
 def cp(n):
 	'''check if integer n is a prime'''
 	if n == 2:
-		return True
 		prime.append(n)
+		return True
 	# all other even numbers are not primes
-	if not n & 1: 
+	if n%2 == 0:
 		return False
-	# range starts with 3 and only needs to go up the squareroot of n for all odd numbers
-	for x in range(3, int(n**0.5)+1, 2):
+	# checks remaining odd numbers
+	for x in m:
 		if n % x == 0:
 			return False
-	return True
-	prime.append(n)
+		else: 
+			prime.append(n)
+			return True
+
+for i in p:
+	cp(i)
+	print(prime)
