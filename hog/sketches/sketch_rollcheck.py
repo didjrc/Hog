@@ -24,38 +24,40 @@ def roll_dice(n, dice):
     # BEGIN Question 1
     curr_roll = 0
     dice_total = []
-    while curr_roll < n:
-        
+    
+    while curr_roll < n:    
         """Condition: Pig Out"""
         #Checks to see whether or not an element i in dice_total is == 1.
         dice_total.append(dice[curr_roll])
         curr_roll = curr_roll + 1
         #test
-        for i in dice_total:
-            if i == 1:
-                pigout = 1
+    for i in dice_total:
+        if i == 1:
+            pigout = 1
+            print("T")
+            return sum(dice_total)*0
+
+        else:
+            pigout = 0
+            print("F")
+
+        """Condition: Hogtimus Prime"""
+    if cp(sum(dice_total)) is True:
+        print("Prime: True")
+        # Need to find the next prime number after prime number dice_total      
+        maxPrime = list(range(sum(dice_total)+1, sum(dice_total)*2-1,1))
+        for j in maxPrime:
+            cp(j)
+            if cp(j) is True:
+                return j
+                break
             else:
-                pigout = 0
-    if pigout:
-        return sum(dice_total)*0
+                maxPrime = list(range(sum(dice_total)+2,sum(dice_total)*2-1,1))
+                for j in maxPrime:
+                    cp(j)
+                    if cp(j) is True:
+                        return j
+                        break
     else:
         return sum(dice_total)
-    
-# """Condition: Hogtimus Prime"""
-        # m = list(range(3, int(sum(dice_total)**0.5)+1, 2))
-        # if cp(sum(dice_total)) == True:
-        #     # Need to find the next prime number after max(PRIME)       
-        #     maxPrime = list(range(sum(dice_total)+1, sum(dice_total)*2-1,1))
-        #     for j in maxPrime:
-        #         cp(j)
-        #         if cp(j) == True:
-        #             return j
-        #             break
-        # else:
-        #     maxPrime = list(range(sum(dice_total)+2,sum(dice_total)*2-1,1)
-        #     for j in maxPrime: """need to figure out why this is a Syntax error"""
-        #         cp(j)
-        #         if cp(j) == True:
-        #             return j
-        #             break
     # END Question 1

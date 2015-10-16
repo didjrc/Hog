@@ -1,4 +1,4 @@
-"""The Game of Hog."""
+"""The Game of Hog"""
 
 from dice import four_sided, six_sided, make_test_dice
 from ucb import main, trace, log_current_line, interact
@@ -11,26 +11,65 @@ GOAL_SCORE = 100  # The goal of Hog is to score 100 points.
 # Phase 1: Simulator #
 ######################
 
+# From: https://www.daniweb.com/programming/software-development/code/216880/check-if-a-number-is-a-prime-number-python
+def cp(n):
+    """Check if integer n is a prime"""
+    if n == 2:
+        return True
+    if n == 3:
+        return True
+    # all other even numbers are not primes
+    if n%2 == 0:
+        return False
+    # checks remaining odd numbers
+    for x in list(range(3, int(sum(dice_total)**0.5)+1, 2)): """ need to find a way to make this work w/o using dice_total """ ########################## !!!!!!!!!!!!!!!!!
+        if n % x == 0:
+            return False
+        else: 
+            return True
 
-def roll_dice(num_rolls, dice=six_sided):
-    """Simulate rolling the DICE exactly NUM_ROLLS times. Return the sum of
-    the outcomes unless any of the outcomes is 1. In that case, return 0.
-    """
+def roll_dice(n, dice):
+    
     # These assert statements ensure that num_rolls is a positive integer.
-    assert type(num_rolls) == int, 'num_rolls must be an integer.'
-    assert num_rolls > 0, 'Must roll at least once.'
+    assert type(n) == int, 'num_rolls must be an integer.'
+    assert n > 0, 'Must roll at least once.'
     # BEGIN Question 1
     curr_roll = 0
-    dice_total = set()
-    while curr_roll != num_rolls:
+    dice_total = []
+    
+    while curr_roll < n:    
+        """Condition: Pig Out"""
+        #Checks to see whether or not an element i in dice_total is == 1.
+        dice_total.append(dice())
         curr_roll = curr_roll + 1
-        dice_total.add(dice())
-        #print("Number of Rolls", curr_roll, "With Value: ",dice(), "And Dice Total: ", sum(dice_total))
-    for i in dice_total: #'Checks to see whether or not an element i in dice_total is == 1.'
-            if i == 1:
-                return sum(dice_total)*0 #'if so, sets score for this round to zero.'
+
+    for i in dice_total:
+        if i == 1:
+            pigout = 1
+            return sum(dice_total)*0
+
+        else:
+            pigout = 0
+
+        """Condition: Hogtimus Prime"""
+    if cp(sum(dice_total)) is True:
+        print("Prime: True")
+        # Need to find the next prime number after prime number dice_total      
+        maxPrime = list(range(sum(dice_total)+1, sum(dice_total)*2-1,1))
+        for j in maxPrime:
+            cp(j)
+            if cp(j) is True:
+                return j
+                break
             else:
-                return sum(dice_total) #'if not, returns total points for this round.'
+                maxPrime = list(range(sum(dice_total)+2,sum(dice_total)*2-1,1))
+                for j in maxPrime:
+                    cp(j)
+                    if cp(j) is True:
+                        return j
+                        break
+    else:
+        return sum(dice_total)
     # END Question 1
 
 
