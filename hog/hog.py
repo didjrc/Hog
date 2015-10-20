@@ -7,6 +7,8 @@ from operator import add #imports the built-in function add
 GOAL_SCORE = 100  # The goal of Hog is to score 100 points.
 
 dice_total = []
+total = []
+prime = []
 
 
 ######################
@@ -17,20 +19,45 @@ dice_total = []
 def is_prime(n):
     """Check if integer n is a prime"""
     if n == 2:
+        prime.append(n)
         return True
     if n == 3:
+        prime.append(n)
         return True
     # all other even numbers are not primes
     if n%2 == 0:
         return False
     # checks remaining odd numbers
-    for x in list(range(3, int(sum(dice_total)**0.5)+1, 2)):
-        if n % x == 0:
-            return False
-        else: 
-            return True
+    # modified for statements to account for cases where only 1 dice is rolled with value < 3
+    if int(sum(dice_total)**0.5)+1 <= 3:
+        for x in list(range(3, 5, 2)):
+            if n % x == 0:
+                return False
+            else:
+                prime.append(n) 
+                return True
+    else:
+        for x in list(range(3, int(sum(dice_total)**0.5)+1, 2)):
+            if n % x == 0:
+                return False
+            else:
+                prime.append(n) 
+                return True
 
-def roll_dice(n, dice):
+def next_prime():
+
+    """ Find next prime number in sequence """
+    np = []
+    roof = max(prime)*2
+    # Need to find the next prime number after max(PRIME)       
+    maxPrime = list(range(max(prime)+2,roof,1))
+    for s in maxPrime:
+        if is_prime(s) == True:
+            # print("True",s)
+            return s
+            break
+
+def roll_dice(n, dice=six_sided):
     
     # These assert statements ensure that num_rolls is a positive integer.
     assert type(n) == int, 'num_rolls must be an integer.'
@@ -52,7 +79,7 @@ def roll_dice(n, dice):
     # END Question 1
 
 
-def take_turn(num_rolls, opponent_score, dice):
+def take_turn(num_rolls, opponent_score, dice=six_sided):
     """Simulate a turn rolling NUM_ROLLS dice, which may be 0 (Free bacon).
 
     num_rolls:       The number of dice rolls that will be made.
@@ -73,25 +100,13 @@ def take_turn(num_rolls, opponent_score, dice):
         oppScore = 1 + int(max(str(opponent_score)))
         return oppScore
     else:
-        total = roll_dice(num_rolls, dice)
+        dice_total = (roll_dice(num_rolls, dice))
 
-        """Condition: Hogtimus Prime"""
-        if is_prime(total) is True:
-            # Need to find the next prime number after prime number dice_total      
-            maxPrime = list(range(total+1, total*2-1,1))
-            for j in maxPrime:
-                is_prime(j)
-                if is_prime(j) is True:
-                    return j
-                    break
-                else:
-                    maxPrime = list(range(total+2,total*2-1,1))
-                    for j in maxPrime:
-                        is_prime(j)
-                        if is_prime(j) is True:
-                            return j
-                            break
-        return total
+        if is_prime(dice_total) is True:
+            np = next_prime()
+            return np
+        else:
+            return dice_total
     # END Question 2
 
 

@@ -11,11 +11,18 @@ def is_prime(n):
     if n%2 == 0:
         return False
     # checks remaining odd numbers
-    for x in list(range(3, int(sum(dice)**0.5)+1, 2)):
-        if n % x == 0:
-            return False
-        else: 
-            return True
+    if int(sum(dice)**0.5)+1 <= 3:
+        for x in list(range(3, 5, 2)):
+            if n % x == 0:
+                return False
+            else: 
+                return True
+    else:
+        for x in list(range(3, int(sum(dice)**0.5)+1, 2)):
+            if n % x == 0:
+                return False
+            else: 
+                return True
 
 def roll_dice(n, dice):
     
@@ -60,21 +67,21 @@ def take_turn(num_rolls, opponent_score, dice):
     else:
         total = roll_dice(num_rolls, dice)
 
-        """Condition: Hogtimus Prime"""
-        if is_prime(total) is True:
-            # Need to find the next prime number after prime number dice_total      
-            maxPrime = list(range(total+1, total*2-1,1))
-            for j in maxPrime:
-                is_prime(j)
-                if is_prime(j) is True:
-                    return j
-                    break
-                else:
-                    maxPrime = list(range(total+2,total*2-1,1))
-                    for j in maxPrime:
-                        is_prime(j)
-                        if is_prime(j) is True:
-                            return j
-                            break
+    """Condition: Hogtimus Prime"""
+    if is_prime(total) == True:
+        # Need to find the next prime number after prime number dice_total      
+        maxPrime = list(range(total+1, total*2-1,1))
+        for j in maxPrime:
+            is_prime(j)
+            if is_prime(j) == True:
+                return j
+                break
+            else:
+                maxPrime = list(range(total+2,total*2-1,1))
+                for j in maxPrime:
+                    is_prime(j)
+                    if is_prime(j) == True:
+                        return j
+                        break
         return total
     # END Question 2
