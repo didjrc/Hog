@@ -1,6 +1,7 @@
 dice = [4,2,3,3,4,1]
+dice_total = []
 
-def cp(n):
+def is_prime(n):
     """Check if integer n is a prime"""
     if n == 2:
         return True
@@ -30,34 +31,50 @@ def roll_dice(n, dice):
         #Checks to see whether or not an element i in dice_total is == 1.
         dice_total.append(dice[curr_roll])
         curr_roll = curr_roll + 1
-        #test
     for i in dice_total:
         if i == 1:
-            pigout = 1
-            print("T")
             return sum(dice_total)*0
+    return sum(dice_total)
+    # END Question 1
 
-        else:
-            pigout = 0
-            print("F")
+def take_turn(num_rolls, opponent_score, dice):
+    """Simulate a turn rolling NUM_ROLLS dice, which may be 0 (Free bacon).
+
+    num_rolls:       The number of dice rolls that will be made.
+    opponent_score:  The total score of the opponent.
+    dice:            A function of no args that returns an integer outcome.
+
+    Condition: Free Bacon. A player who chooses to roll zero dice scores one more than the largest digit in the opponent's total score.
+    """
+    assert type(num_rolls) == int, 'num_rolls must be an integer.'
+    assert num_rolls >= 0, 'Cannot roll a negative number of dice.'
+    assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
+    assert opponent_score < 100, 'The game should be over.'
+    
+    # BEGIN Question 2
+    """Condition: Free Bacon"""
+    if num_rolls == 0:
+        #oppScore is the points earned by current player under the Condition: Free Bacon.
+        oppScore = 1 + int(max(str(opponent_score)))
+        return oppScore
+    else:
+        total = roll_dice(num_rolls, dice)
 
         """Condition: Hogtimus Prime"""
-    if cp(sum(dice_total)) is True:
-        print("Prime: True")
-        # Need to find the next prime number after prime number dice_total      
-        maxPrime = list(range(sum(dice_total)+1, sum(dice_total)*2-1,1))
-        for j in maxPrime:
-            cp(j)
-            if cp(j) is True:
-                return j
-                break
-            else:
-                maxPrime = list(range(sum(dice_total)+2,sum(dice_total)*2-1,1))
-                for j in maxPrime:
-                    cp(j)
-                    if cp(j) is True:
-                        return j
-                        break
-    else:
-        return sum(dice_total)
-    # END Question 1
+        if is_prime(total) is True:
+            # Need to find the next prime number after prime number dice_total      
+            maxPrime = list(range(total+1, total*2-1,1))
+            for j in maxPrime:
+                is_prime(j)
+                if is_prime(j) is True:
+                    return j
+                    break
+                else:
+                    maxPrime = list(range(total+2,total*2-1,1))
+                    for j in maxPrime:
+                        is_prime(j)
+                        if is_prime(j) is True:
+                            return j
+                            break
+        return total
+    # END Question 2
